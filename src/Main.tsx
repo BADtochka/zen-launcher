@@ -2,10 +2,12 @@ import { disable, enable, isEnabled } from '@tauri-apps/plugin-autostart';
 import { BaseDirectory, exists, readTextFile } from '@tauri-apps/plugin-fs';
 import { Command } from '@tauri-apps/plugin-shell';
 import { parse } from 'ini';
-import { Pen } from 'lucide-solid';
+import { BedSingle, LoaderCircle, Pen, PowerOff } from 'lucide-solid';
 import { createEffect, createSignal } from 'solid-js';
+import { PowerActionButton } from './components/PowerActionButton';
 import { ParsedProfile, Profile } from './types/Profile';
 import { getObjectKeys } from './utils/getObjectKeys';
+import { powerAction } from './utils/powerAction';
 
 export const Main = () => {
   const [profiles, setProfiles] = createSignal<Profile[]>([]);
@@ -84,6 +86,12 @@ export const Main = () => {
             </h2>
           </div>
         ))}
+
+      <div class='absolute bottom-4 left-1/2 flex -translate-1/2 items-center justify-center gap-2'>
+        <PowerActionButton type='reboot' icon={<LoaderCircle />} onClick={powerAction} />
+        <PowerActionButton type='shutdown' icon={<PowerOff />} onClick={powerAction} />
+        <PowerActionButton type='sleep' icon={<BedSingle />} onClick={powerAction} />
+      </div>
       <div class='absolute right-4 bottom-4 flex items-center gap-4'>
         <div class='flex cursor-pointer items-center gap-2 *:cursor-pointer'>
           <label class='flex cursor-pointer items-center gap-2'>

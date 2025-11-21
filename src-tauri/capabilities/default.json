@@ -2,7 +2,9 @@
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "default",
   "description": "Full FS access",
-  "windows": ["main"],
+  "windows": [
+    "main"
+  ],
   "permissions": [
     "core:default",
     "opener:default",
@@ -10,7 +12,9 @@
     "fs:write-all",
     {
       "identifier": "fs:scope",
-      "allow": ["**/*"]
+      "allow": [
+        "**/*"
+      ]
     },
     "shell:default",
     {
@@ -19,6 +23,11 @@
         {
           "name": "zen",
           "cmd": "C:\\Program Files\\Zen Browser\\zen.exe",
+          "args": true
+        },
+        {
+          "name": "shutdown",
+          "cmd": "shutdown",
           "args": true
         }
       ]

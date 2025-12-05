@@ -1,6 +1,7 @@
+import { getCurrentWindow } from '@tauri-apps/api/window';
 import { disable, enable, isEnabled } from '@tauri-apps/plugin-autostart';
 import { BaseDirectory, exists, readTextFile } from '@tauri-apps/plugin-fs';
-import { Command } from '@tauri-apps/plugin-shell';
+import { Child, Command } from '@tauri-apps/plugin-shell';
 import { parse } from 'ini';
 import { BedSingle, LoaderCircle, Pen, PowerOff } from 'lucide-solid';
 import { createEffect, createSignal } from 'solid-js';
@@ -12,6 +13,7 @@ import { powerAction } from './utils/powerAction';
 export const Main = () => {
   const [profiles, setProfiles] = createSignal<Profile[]>([]);
   const [startupEnabled, setStartupEnabled] = createSignal<boolean>(false);
+  const [currentProccess, setCurrentProccess] = createSignal<Child | null>(null);
 
   createEffect(async () => {
     const PROFILE_PATH = 'zen\\profiles.ini';
@@ -25,7 +27,6 @@ export const Main = () => {
 
     getObjectKeys<ParsedProfile>(parsedProfilesFile).map((key) => {
       if (
-        typeof key === 'string' &&
         key.includes('Profile') &&
         parsedProfilesFile[key].Name &&
         !parsedProfilesFile[key].Name.includes('Default')
@@ -42,16 +43,21 @@ export const Main = () => {
   });
 
   createEffect(async () => {
-    console.log(await isEnabled());
-
     setStartupEnabled(await isEnabled());
   });
 
   const handleProfileSelect = async (profile: Profile) => {
-    console.log(profile.priority);
+    if (currentProccess()) currentProccess()!.kill();
+    const zenCommand = Command.create('zen', ['-P', profile.name]);
 
-    const startZen = Command.create('zen', ['-P', profile.name]);
-    await startZen.execute();
+    zenCommand.addListener('close', () => {
+      getCurrentWindow().show();
+    });
+
+    const process = await zenCommand.spawn();
+
+    setCurrentProccess(process);
+    getCurrentWindow().hide();
   };
 
   const handleStartupToggle = async () => {

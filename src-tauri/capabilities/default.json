@@ -23,6 +23,11 @@
           "name": "shutdown",
           "cmd": "shutdown",
           "args": true
+        },
+        {
+          "name": "sleep",
+          "cmd": "rundll32.exe",
+          "args": ["powrprof.dll,SetSuspendState", "0,1,0"]
         }
       ]
     },

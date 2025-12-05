@@ -13,7 +13,7 @@ export const powerAction = (type: 'shutdown' | 'reboot' | 'sleep') => {
       break;
 
     case 'sleep':
-      return Command.create('rundll32.exe', ['powrprof.dll,SetSuspendState', '0,1,0']).execute();
+      return Command.create('sleep', ['powrprof.dll,SetSuspendState', '0,1,0']).execute();
   }
 
   const command = Command.create('shutdown', args);

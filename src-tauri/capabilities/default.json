@@ -17,16 +17,21 @@
     },
     "shell:default",
     {
+      "identifier": "shell:allow-execute",
+      "allow": [
+        {
+          "name": "shutdown",
+          "cmd": "shutdown",
+          "args": true
+        }
+      ]
+    },
+    {
       "identifier": "shell:allow-spawn",
       "allow": [
         {
           "name": "zen",
           "cmd": "C:\\Program Files\\Zen Browser\\zen.exe",
-          "args": true
-        },
-        {
-          "name": "shutdown",
-          "cmd": "shutdown",
           "args": true
         }
       ]

@@ -1,7 +1,6 @@
 {
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "default",
-  "description": "Full FS access",
   "windows": ["main"],
   "permissions": [
     "core:default",
@@ -9,8 +8,13 @@
     "core:window:allow-hide",
     "core:window:allow-show",
     "opener:default",
+    "store:default",
     "fs:read-all",
     "fs:write-all",
+    "fs:allow-exists",
+    "dialog:allow-open",
+    "dialog:default",
+    "autostart:default",
     {
       "identifier": "fs:scope",
       "allow": ["**/*"]
@@ -33,13 +37,7 @@
     },
     {
       "identifier": "shell:allow-spawn",
-      "allow": [
-        {
-          "name": "zen",
-          "cmd": "C:\\Program Files\\Zen Browser\\zen.exe",
-          "args": true
-        }
-      ]
+      "allow": ["*"]
     }
   ]
 }
